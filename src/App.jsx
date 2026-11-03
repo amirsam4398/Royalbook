@@ -39,14 +39,27 @@ export default function App() {
           <p style={{ fontSize: '10px', color: '#94a3b8', margin: 0 }}>تحت مالکیت استارتاپ رویال‌فام</p>
         </div>
 
-        {/* اطلاعات سالن و راه‌های ارتباطی مدیریت */}
+        {/* اطلاعات سالن و راه‌های ارتباطی مدیریت با لینک‌های مستقیم */}
         <div style={{ textAlign: 'center', backgroundColor: '#1c1a16', border: '1px solid rgba(245, 158, 11, 0.2)', borderRadius: '16px', padding: '12px' }}>
           <h1 style={{ fontSize: '22px', fontWeight: '900', color: '#ffffff', margin: '0 0 4px 0' }}>{salonName}</h1>
           <p style={{ fontSize: '12px', color: '#94a3b8', margin: '0 0 2px 0' }}>مدیریت: سرکار {managerName}</p>
-          <p style={{ fontSize: '11px', color: '#fde047', margin: '0 0 2px 0', fontFamily: 'monospace' }}>تلفن مدیریت: {managerPhone}</p>
+          <p style={{ fontSize: '11px', color: '#fde047', margin: '0 0 6px 0', fontFamily: 'monospace' }}>تلفن مدیریت: {managerPhone}</p>
+          
           <div style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px dashed rgba(245, 158, 11, 0.3)', display: 'flex', justifyContent: 'center', gap: '12px', fontSize: '11px' }}>
-            <span style={{ color: '#38bdf8' }}>اینستاگرام: @{managerInstagram}</span>
-            <span style={{ color: '#4ade80' }}>بله: {managerBalePhone}</span>
+            <a 
+              href={`https://instagram.com/${managerInstagram}`} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              style={{ color: '#38bdf8', textDecoration: 'none', backgroundColor: 'rgba(56, 189, 248, 0.1)', padding: '4px 8px', borderRadius: '8px', border: '1px solid rgba(56, 189, 248, 0.2)' }}
+            >
+              اینستاگرام (@{managerInstagram}) ↗
+            </a>
+            <a 
+              href={`tel:${managerBalePhone}`} 
+              style={{ color: '#4ade80', textDecoration: 'none', backgroundColor: 'rgba(74, 222, 128, 0.1)', padding: '4px 8px', borderRadius: '8px', border: '1px solid rgba(74, 222, 128, 0.2)' }}
+            >
+              پیام‌رسان بله ({managerBalePhone}) ↗
+            </a>
           </div>
         </div>
 
@@ -54,6 +67,19 @@ export default function App() {
         <div style={{ backgroundColor: 'rgba(127, 29, 29, 0.3)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '16px', padding: '12px', textAlign: 'center', color: '#fca5a5', fontSize: '11px' }}>
           <p style={{ fontWeight: 'bold', margin: '0 0 4px 0' }}>⚠️ قوانین مهم رزرو (عدم کنسلی):</p>
           <p style={{ margin: 0, color: '#cbd5e1' }}>وجه واریزی به‌عنوان بیعانه قطعی‌سازی نوبت بوده و به هیچ وجه قابل استرداد یا کنسلی نمی‌باشد.</p>
+        </div>
+
+        {/* کتگوری / راهنمای نصب و قرار دادن در بایو اینستاگرام */}
+        <div style={{ backgroundColor: '#1c1a16', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '16px', padding: '12px', textAlign: 'right', fontSize: '11px', color: '#cbd5e1' }}>
+          <p style={{ fontSize: '12px', fontWeight: 'bold', color: '#fbbf24', margin: '0 0 6px 0', textAlign: 'center' }}>📌 راهنمای نصب و قرار دادن در بایو اینستاگرام:</p>
+          <ol style={{ margin: '0', paddingRight: '18px', lineHeight: '1.6', color: '#94a3b8' }}>
+            <li>وارد پیج اینستاگرام سالن به آیدی <strong style={{ color: '#38bdf8' }}>@{managerInstagram}</strong> شوید.</li>
+            <li>گزینه <strong style={{ color: '#fff' }}>Edit Profile</strong> را لمس کنید.</li>
+            <li>آدرس زیر را کپی کرده و در قسمت <strong style={{ color: '#fff' }}>Website</strong> جای‌گذاری و ذخیره کنید:</li>
+          </ol>
+          <div style={{ marginTop: '8px', padding: '8px', backgroundColor: '#111', border: '1px dashed rgba(245, 158, 11, 0.4)', borderRadius: '8px', fontFamily: 'monospace', color: '#fde047', textAlign: 'center', wordBreak: 'break-all', fontSize: '10px' }}>
+            https://royalbook-ten.vercel.app
+          </div>
         </div>
 
         {/* شماره کارت پویا */}
@@ -138,3 +164,4 @@ export default function App() {
     </div>
   );
 }
+
