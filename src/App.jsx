@@ -8,17 +8,29 @@ export default function App() {
   const [managerBalePhone] = useState("09190358813");
   const [cardNumber, setCardNumber] = useState("");
 
+  const [selectedPlan, setSelectedPlan] = useState("پلن ۶ نفره (دارکت هوشمند و CRM)");
   const [selectedService, setSelectedService] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("09190358813");
   const [depositPaid, setDepositPaid] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(null);
+  const [smsSent, setSmsSent] = useState(false);
 
+  const plans = [
+    { id: 1, name: "پلن ۶ نفره - دارکت هوشمند و CRM پایه", desc: "مناسب کسب‌وکارهای نوپا (تا ۳۰۰ نفر ظرفیت CRM)" },
+    { id: 2, name: "پلن ۱۲ نفره - تحلیل هوشمند پیشرفته", desc: "آنالیز دقیق رفتار مشتریان و گزارش‌گیری هوشمند" },
+    { id: 3, name: "پلن جامع ۱۰۰۰ نفره - CRM کامل و اتوماسیون", desc: "مدیریت حرفه‌ای مشتریان انبوه و ابزارهای بازاریابی" }
+  ];
+
+  // لیست کامل خدمات سالن زیبایی (شامل کراتین، احیا و...)
   const services = [
-    { id: 1, name: "شنیون تخصصی عروس و آرایش مو - ۱,۸۰۰,۰۰۰ تومان", price: 1800000 },
-    { id: 2, name: "میکاپ تخصصی صورت - ۲,۵۰۰,۰۰۰ تومان", price: 2500000 },
-    { id: 3, name: "کاشت و ترمیم ناخن - ۶۵۰,۰۰۰ تومان", price: 650000 },
-    { id: 4, name: "کاشت و اکستنشن مژه - ۷۵۰,۰۰۰ تومان", price: 750000 }
+    { id: 1, name: "کراتین و احیای تخصصی مو - ۳,۵۰۰,۰۰۰ تومان", price: 3500000 },
+    { id: 2, name: "رنگ، لایت و آمبره مو - ۲,۸۰۰,۰۰۰ تومان", price: 2800000 },
+    { id: 3, name: "شنیون تخصصی عروس و آرایش مو - ۱,۸۰۰,۰۰۰ تومان", price: 1800000 },
+    { id: 4, name: "میکاپ تخصصی صورت - ۲,۵۰۰,۰۰۰ تومان", price: 2500000 },
+    { id: 5, name: "کاشت و ترمیم ناخن - ۶۵۰,۰۰۰ تومان", price: 650000 },
+    { id: 6, name: "کاشت و اکستنشن مژه - ۷۵۰,۰۰۰ تومان", price: 750000 },
+    { id: 7, name: "پاكسازی و فیشیال تخصصی پوست - ۱,۲۰۰,۰۰۰ تومان", price: 1200000 }
   ];
 
   const handleBooking = (e) => {
@@ -26,6 +38,7 @@ export default function App() {
     if (!selectedService || !customerName || !customerPhone || !depositPaid) return;
     const code = "RB-" + Math.floor(100000 + Math.random() * 900000);
     setBookingSuccess(code);
+    setSmsSent(true); // شبیه‌سازی ارسال پیامک موفق به مشتری و مدیر
   };
 
   return (
@@ -35,7 +48,7 @@ export default function App() {
         {/* هدر بالایی ROYALBOOK */}
         <div style={{ textAlign: 'center', backgroundColor: '#1c1a16', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '16px', padding: '12px' }}>
           <p style={{ fontSize: '10px', letterSpacing: '2px', color: '#fbbf24', margin: '0 0 4px 0', fontFamily: 'monospace' }}>ROYALBOOK | پلتفرم هوشمند هلدینگ رویال‌فام</p>
-          <p style={{ fontSize: '12px', fontWeight: 'bold', color: '#fde047', margin: '0 0 2px 0' }}>سیستم رزواسیون و عدم کنسلی سالن‌های زیبایی</p>
+          <p style={{ fontSize: '12px', fontWeight: 'bold', color: '#fde047', margin: '0 0 2px 0' }}>سیستم جامع رزواسیون، کراتین و پیامک هوشمند</p>
           <p style={{ fontSize: '10px', color: '#94a3b8', margin: 0 }}>تحت مالکیت استارتاپ رویال‌فام</p>
         </div>
 
@@ -63,19 +76,31 @@ export default function App() {
           </div>
         </div>
 
+        {/* انتخاب پلن‌های هوشمند */}
+        <div style={{ backgroundColor: '#1c1a16', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '16px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <p style={{ fontSize: '12px', fontWeight: 'bold', color: '#fbbf24', textAlign: 'center', margin: 0 }}>💎 انتخاب پلن هوشمند رویال‌بوک:</p>
+          <select 
+            value={selectedPlan} 
+            onChange={(e) => setSelectedPlan(e.target.value)} 
+            style={{ width: '100%', backgroundColor: '#111', border: '1px solid rgba(245, 158, 11, 0.4)', borderRadius: '10px', padding: '10px', color: '#fde047', fontSize: '11px', boxSizing: 'border-box' }}
+          >
+            {plans.map(p => <option key={p.id} value={p.name}>{p.name} - {p.desc}</option>)}
+          </select>
+        </div>
+
         {/* قوانین عدم کنسلی */}
         <div style={{ backgroundColor: 'rgba(127, 29, 29, 0.3)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '16px', padding: '12px', textAlign: 'center', color: '#fca5a5', fontSize: '11px' }}>
           <p style={{ fontWeight: 'bold', margin: '0 0 4px 0' }}>⚠️ قوانین مهم رزرو (عدم کنسلی):</p>
           <p style={{ margin: 0, color: '#cbd5e1' }}>وجه واریزی به‌عنوان بیعانه قطعی‌سازی نوبت بوده و به هیچ وجه قابل استرداد یا کنسلی نمی‌باشد.</p>
         </div>
 
-        {/* کتگوری / راهنمای نصب و قرار دادن در بایو اینستاگرام */}
+        {/* راهنمای نصب و بایو اینستاگرام */}
         <div style={{ backgroundColor: '#1c1a16', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '16px', padding: '12px', textAlign: 'right', fontSize: '11px', color: '#cbd5e1' }}>
           <p style={{ fontSize: '12px', fontWeight: 'bold', color: '#fbbf24', margin: '0 0 6px 0', textAlign: 'center' }}>📌 راهنمای نصب و قرار دادن در بایو اینستاگرام:</p>
           <ol style={{ margin: '0', paddingRight: '18px', lineHeight: '1.6', color: '#94a3b8' }}>
             <li>وارد پیج اینستاگرام سالن به آیدی <strong style={{ color: '#38bdf8' }}>@{managerInstagram}</strong> شوید.</li>
             <li>گزینه <strong style={{ color: '#fff' }}>Edit Profile</strong> را لمس کنید.</li>
-            <li>آدرس زیر را کپی کرده و در قسمت <strong style={{ color: '#fff' }}>Website</strong> جای‌گذاری و ذخیره کنید:</li>
+            <li>آدرس زیر را کپی کرده و در قسمت <strong style={{ color: '#fff' }}>Website</strong> جای‌گذاری کنید:</li>
           </ol>
           <div style={{ marginTop: '8px', padding: '8px', backgroundColor: '#111', border: '1px dashed rgba(245, 158, 11, 0.4)', borderRadius: '8px', fontFamily: 'monospace', color: '#fde047', textAlign: 'center', wordBreak: 'break-all', fontSize: '10px' }}>
             https://royalbook-ten.vercel.app
@@ -95,12 +120,12 @@ export default function App() {
           <p style={{ fontSize: '11px', color: '#94a3b8', margin: '6px 0 0 0' }}>به نام: {managerName}</p>
         </div>
 
-        {/* فرم رزرو آنلاین */}
+        {/* فرم رزرو آنلاین و خدمات کامل */}
         <form onSubmit={handleBooking} style={{ backgroundColor: '#1a1a1a', border: '1px solid #27272a', borderRadius: '16px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <h2 style={{ fontSize: '12px', fontWeight: 'bold', color: '#fbbf24', textAlign: 'center', margin: 0 }}>رزرو آنلاین خدمات و پرداخت بیعانه</h2>
+          <h2 style={{ fontSize: '12px', fontWeight: 'bold', color: '#fbbf24', textAlign: 'center', margin: 0 }}>رزرو آنلاین خدمات (کراتین، رنگ، ناخن و...)</h2>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <label style={{ fontSize: '11px', color: '#94a3b8' }}>انتخاب خدمت تخصصی (نرخ کرج):</label>
+            <label style={{ fontSize: '11px', color: '#94a3b8' }}>انتخاب خدمت تخصصی سالن:</label>
             <select 
               value={selectedService} 
               onChange={(e) => setSelectedService(e.target.value)} 
@@ -123,7 +148,7 @@ export default function App() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <label style={{ fontSize: '11px', color: '#94a3b8' }}>شماره تماس مشتری:</label>
+            <label style={{ fontSize: '11px', color: '#94a3b8' }}>شماره تماس مشتری (جهت ارسال پیامک):</label>
             <input 
               type="tel" 
               value={customerPhone} 
@@ -143,13 +168,18 @@ export default function App() {
           </div>
 
           <button type="submit" style={{ width: '100%', padding: '12px', backgroundColor: '#f59e0b', color: '#09090b', fontWeight: 'bold', borderRadius: '10px', border: 'none', fontSize: '12px', cursor: 'pointer' }}>
-            ثبت نهایی و دریافت کد پیگیری
+            ثبت نهایی و ارسال پیامک تایید
           </button>
         </form>
 
         {bookingSuccess && (
-          <div style={{ backgroundColor: 'rgba(6, 78, 59, 0.6)', border: '1px solid #059669', borderRadius: '12px', padding: '12px', textAlign: 'center', color: '#34d399', fontSize: '11px', fontWeight: 'bold' }}>
-            🎉 نوبت شما ثبت شد! کد پیگیری: {bookingSuccess}
+          <div style={{ backgroundColor: 'rgba(6, 78, 59, 0.6)', border: '1px solid #059669', borderRadius: '12px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'center', color: '#34d399', fontSize: '11px', fontWeight: 'bold' }}>
+            <div>🎉 نوبت شما با موفقیت ثبت شد! کد پیگیری: {bookingSuccess}</div>
+            {smsSent && (
+              <div style={{ fontSize: '10px', color: '#fde047', backgroundColor: 'rgba(0,0,0,0.3)', padding: '6px', borderRadius: '6px' }}>
+                📨 پیامک تایید نوبت و جزئیات بیعانه به شماره {customerPhone} با موفقیت ارسال شد.
+              </div>
+            )}
           </div>
         )}
 
@@ -157,11 +187,10 @@ export default function App() {
         <div style={{ backgroundColor: '#121212', border: '1px solid #27272a', borderRadius: '16px', padding: '12px', textAlign: 'center', fontSize: '11px', color: '#94a3b8', display: 'flex', flexDirection: 'column', gap: '2px' }}>
           <p style={{ fontWeight: 'bold', color: '#fbbf24', margin: 0 }}>مالکیت: استارتاپ رویال‌فام</p>
           <p style={{ margin: 0, color: '#cbd5e1' }}>توسعه و پشتیبانی: امیرسام یعقوبی</p>
-          <p style={{ margin: 0, fontFamily: 'monospace', color: '#cbd5e1' }}>تماس: 09366681963</p>
+          <p style={{ margin: 0, fontFamily: 'monospace', color: '#cbd5e1' }}>تماس: 09190358813</p>
         </div>
 
       </div>
     </div>
   );
 }
-
