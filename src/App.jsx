@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function App() {
-  const [salonName] = useState("زیباسرای طوبی");
+  const [salonName] = useState("زیباسرای طوبا");
   const [managerName] = useState("خانم رشیدی");
   const [managerPhone] = useState("09190358813");
   const [managerInstagram] = useState("Tobabeauty89");
@@ -21,7 +21,7 @@ export default function App() {
   const [depositPaid, setDepositPaid] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(null);
 
-  // خدمات تخصصی سالن‌های زیبایی (با محوریت کراتین، احیا، رنگ و...)
+  // خدمات تخصصی سالن‌های زیبایی (کراتین، احیا، رنگ و...)
   const services = [
     { id: 1, name: "کراتین و احیای تخصصی مو - ۳,۵۰۰,۰۰۰ تومان" },
     { id: 2, name: "رنگ، لایت و آمبره مو - ۲,۸۰۰,۰۰۰ تومان" },
@@ -47,7 +47,7 @@ export default function App() {
 
   // افزودن خودکار نوبت به تقویم گوگل (Google Calendar)
   const addToCalendar = () => {
-    const title = encodeURIComponent(`نوبت سالن زیبایی: ${selectedService}`);
+    const title = encodeURIComponent(`نوبت زیبایی در ${salonName}: ${selectedService}`);
     const details = encodeURIComponent(`مشتری عزیز ${customerName}، نوبت شما در ${salonName} ثبت شد. کد پیگیری: ${bookingSuccess}. مدیریت: ${managerPhone}`);
     const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}`;
     window.open(calendarUrl, '_blank');
@@ -78,16 +78,6 @@ export default function App() {
               تماس مستقیم ↗
             </a>
           </div>
-        </div>
-
-        {/* راهنمای اختصاصی مدیر سالن */}
-        <div style={{ backgroundColor: '#1c1a16', border: '1px solid rgba(56, 189, 248, 0.4)', borderRadius: '16px', padding: '14px', textAlign: 'right', fontSize: '11px', color: '#cbd5e1' }}>
-          <p style={{ fontSize: '12px', fontWeight: 'bold', color: '#38bdf8', margin: '0 0 8px 0', textAlign: 'center' }}>💡 راهنمای اختصاصی مدیر سالن (ویژه سالن‌داران):</p>
-          <ul style={{ margin: '0', paddingRight: '16px', lineHeight: '1.7', color: '#94a3b8' }}>
-            <li><strong style={{ color: '#fff' }}>بایو اینستاگرام:</strong> لینک سایت را در بایو پیج قرار دهید تا مشتریان به راحتی رزرو کنند.</li>
-            <li><strong style={{ color: '#fff' }}>سیستم یادآوری تقویم:</strong> مشتری با یک کلیک نوبت را در تقویم گوشی ذخیره می‌کند تا هرگز فراموش نشود.</li>
-            <li><strong style={{ color: '#fff' }}>بدون نیاز به پنل پیامکی:</strong> جزئیات رزرو به صورت آنی به پیام‌رسان بله مدیر منتقل می‌شود.</li>
-          </ul>
         </div>
 
         {/* انتخاب پلن‌های هوشمند */}
