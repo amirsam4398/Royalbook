@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function App() {
-  const [salonName] = useState("زیباسرای توکلی");
+  const [salonName] = useState("زیباسرای طوبی");
   const [managerName] = useState("خانم رشیدی");
   const [managerPhone] = useState("09190358813");
   const [managerInstagram] = useState("Tobabeauty89");
@@ -9,9 +9,9 @@ export default function App() {
 
   // پلن‌های هوشمند سالن با محدودیت‌ها و قیمت‌ها
   const plans = [
-    { id: 1, name: "پلن پایه - ۲,۵۰۰,۰۰۰ تومان (ظرفیت ۶ کاربر / CRM تا ۳۰۰ نفر)", price: 2500000 },
-    { id: 2, name: "پلن پیشرفته - ۶,۰۰۰,۰۰۰ تومان (ظرفیت ۱۲ کاربر + تحلیل هوشمند)", price: 6000000 },
-    { id: 3, name: "پلن جامع سازمانی - ۱۲,۰۰۰,۰۰۰ تومان (ظرفیت ۱۰۰۰ کاربر + CRM کامل)", price: 12000000 }
+    { id: 1, name: "پلن پایه - ۲,۵۰۰,۰۰۰ تومان (ظرفیت ۶ کاربر / CRM تا ۳۰۰ نفر)" },
+    { id: 2, name: "پلن پیشرفته - ۶,۰۰۰,۰۰۰ تومان (ظرفیت ۱۲ کاربر + تحلیل هوشمند)" },
+    { id: 3, name: "پلن جامع سازمانی - ۱۲,۰۰۰,۰۰۰ تومان (ظرفیت ۱۰۰۰ کاربر + CRM کامل)" }
   ];
 
   const [selectedPlan, setSelectedPlan] = useState(plans[0].name);
@@ -21,15 +21,15 @@ export default function App() {
   const [depositPaid, setDepositPaid] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(null);
 
-  // خدمات تخصصی سالن‌های زیبایی (کراتین، احیا، رنگ و...)
+  // خدمات تخصصی سالن‌های زیبایی (با محوریت کراتین، احیا، رنگ و...)
   const services = [
-    { id: 1, name: "کراتین و احیای تخصصی مو - ۳,۵۰۰,۰۰۰ تومان", price: 3500000 },
-    { id: 2, name: "رنگ، لایت و آمبره مو - ۲,۸۰۰,۰۰۰ تومان", price: 2800000 },
-    { id: 3, name: "شنیون تخصصی عروس و آرایش مو - ۱,۸۰۰,۰۰۰ تومان", price: 1800000 },
-    { id: 4, name: "میکاپ تخصصی صورت - ۲,۵۰۰,۰۰۰ تومان", price: 2500000 },
-    { id: 5, name: "کاشت و ترمیم ناخن - ۶۵۰,۰۰۰ تومان", price: 650000 },
-    { id: 6, name: "کاشت و اکستنشن مژه - ۷۵۰,۰۰۰ تومان", price: 750000 },
-    { id: 7, name: "پاکسازی و فیشیال تخصصی پوست - ۱,۲۰۰,۰۰۰ تومان", price: 1200000 }
+    { id: 1, name: "کراتین و احیای تخصصی مو - ۳,۵۰۰,۰۰۰ تومان" },
+    { id: 2, name: "رنگ، لایت و آمبره مو - ۲,۸۰۰,۰۰۰ تومان" },
+    { id: 3, name: "شنیون تخصصی عروس و آرایش مو - ۱,۸۰۰,۰۰۰ تومان" },
+    { id: 4, name: "میکاپ تخصصی صورت - ۲,۵۰۰,۰۰۰ تومان" },
+    { id: 5, name: "کاشت و ترمیم ناخن - ۶۵۰,۰۰۰ تومان" },
+    { id: 6, name: "کاشت و اکستنشن مژه - ۷۵۰,۰۰۰ تومان" },
+    { id: 7, name: "پاکسازی و فیشیال تخصصی پوست - ۱,۲۰۰,۰۰۰ تومان" }
   ];
 
   const handleBooking = (e) => {
@@ -39,13 +39,13 @@ export default function App() {
     setBookingSuccess(code);
   };
 
-  // سیستم ارسال مستقیم جزئیات به بله مدیر (جایگزین پنل پیامکی)
+  // ارسال مستقیم جزئیات به بله مدیر (جایگزین پنل پیامکی)
   const sendToBaleManager = () => {
     const text = encodeURIComponent(`سلام خانم رشیدی، رزرو جدید در پلتفرم ثبت شد:\n\n👤 مشتری: ${customerName}\n📱 تلفن: ${customerPhone}\n💄 خدمت: ${selectedService}\n💎 پلن انتخابی: ${selectedPlan}\n🔑 کد پیگیری: ${bookingSuccess}`);
     window.open(`https://ble.ir/${managerPhone}?text=${text}`, '_blank');
   };
 
-  // قابلیت افزودن خودکار نوبت به تقویم گوگل (Google Calendar)
+  // افزودن خودکار نوبت به تقویم گوگل (Google Calendar)
   const addToCalendar = () => {
     const title = encodeURIComponent(`نوبت سالن زیبایی: ${selectedService}`);
     const details = encodeURIComponent(`مشتری عزیز ${customerName}، نوبت شما در ${salonName} ثبت شد. کد پیگیری: ${bookingSuccess}. مدیریت: ${managerPhone}`);
@@ -80,17 +80,17 @@ export default function App() {
           </div>
         </div>
 
-        {/* 📌 راهنمای اختصاصی مدیر سالن */}
+        {/* راهنمای اختصاصی مدیر سالن */}
         <div style={{ backgroundColor: '#1c1a16', border: '1px solid rgba(56, 189, 248, 0.4)', borderRadius: '16px', padding: '14px', textAlign: 'right', fontSize: '11px', color: '#cbd5e1' }}>
           <p style={{ fontSize: '12px', fontWeight: 'bold', color: '#38bdf8', margin: '0 0 8px 0', textAlign: 'center' }}>💡 راهنمای اختصاصی مدیر سالن (ویژه سالن‌داران):</p>
           <ul style={{ margin: '0', paddingRight: '16px', lineHeight: '1.7', color: '#94a3b8' }}>
-            <li><strong style={{ color: '#fff' }}>قرار دادن در بایو:</strong> آدرس سایت را در قسمت Website پروفایل اینستاگرام قرار دهید.</li>
-            <li><strong style={{ color: '#fff' }}>سیستم یادآوری تقویم:</strong> مشتری پس از رزرو، نوبت خود را مستقیماً با یک کلیک در تقویم گوشی ذخیره می‌کند.</li>
-            <li><strong style={{ color: '#fff' }}>بدون نیاز به پنل پیامکی:</strong> جزئیات نوبت با یک کلیک مستقیماً به پیام‌رسان بله مدیر ارسال می‌شود.</li>
+            <li><strong style={{ color: '#fff' }}>بایو اینستاگرام:</strong> لینک سایت را در بایو پیج قرار دهید تا مشتریان به راحتی رزرو کنند.</li>
+            <li><strong style={{ color: '#fff' }}>سیستم یادآوری تقویم:</strong> مشتری با یک کلیک نوبت را در تقویم گوشی ذخیره می‌کند تا هرگز فراموش نشود.</li>
+            <li><strong style={{ color: '#fff' }}>بدون نیاز به پنل پیامکی:</strong> جزئیات رزرو به صورت آنی به پیام‌رسان بله مدیر منتقل می‌شود.</li>
           </ul>
         </div>
 
-        {/* انتخاب پلن‌های هوشمند و اعمال محدودیت‌ها */}
+        {/* انتخاب پلن‌های هوشمند */}
         <div style={{ backgroundColor: '#1c1a16', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '16px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <p style={{ fontSize: '12px', fontWeight: 'bold', color: '#fbbf24', textAlign: 'center', margin: 0 }}>💎 انتخاب پلن هوشمند و محدودیت سیستم:</p>
           <select value={selectedPlan} onChange={(e) => setSelectedPlan(e.target.value)} style={{ width: '100%', backgroundColor: '#111', border: '1px solid rgba(245, 158, 11, 0.4)', borderRadius: '10px', padding: '10px', color: '#fde047', fontSize: '11px', boxSizing: 'border-box' }}>
@@ -155,7 +155,7 @@ export default function App() {
           </div>
         )}
 
-        {/* فوتر با شماره تلفن توسعه‌دهنده */}
+        {/* فوتر با مشخصات توسعه‌دهنده */}
         <div style={{ backgroundColor: '#121212', border: '1px solid #27272a', borderRadius: '16px', padding: '12px', textAlign: 'center', fontSize: '11px', color: '#94a3b8', display: 'flex', flexDirection: 'column', gap: '2px' }}>
           <p style={{ fontWeight: 'bold', color: '#fbbf24', margin: 0 }}>مالکیت: استارتاپ رویال‌فام</p>
           <p style={{ margin: 0, color: '#cbd5e1' }}>توسعه و پشتیبانی: امیرسام یعقوبی</p>
