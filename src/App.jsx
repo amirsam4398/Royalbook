@@ -1,131 +1,182 @@
 import React, { useState } from 'react';
 
 export default function App() {
-  const [salonName, setSalonName] = useState(import.meta.env.VITE_SALON_NAME || "زیباسرای طوبی");
-  const [managerName, setManagerName] = useState(import.meta.env.VITE_MANAGER_NAME || "خانم رشیدی");
-  const [cardNumber, setCardNumber] = useState(import.meta.env.VITE_CARD_NUMBER || "6037-9974-1234-5678");
+  const [salonName] = useState("زیباسرای طوبی");
+  const [managerName] = useState("خانم رشیدی");
+  const [managerPhone] = useState("09190358813");
+  const [cardNumber, setCardNumber] = useState("");
 
-  const [activeTab, setActiveTab] = useState('home');
-  const [selectedService, setSelectedService] = useState(null);
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-  const [customerName, setCustomerName] = useState('');
-  const [customerPhone, setCustomerPhone] = useState('');
-  const [customerSocialId, setCustomerSocialId] = useState('');
+  const [selectedService, setSelectedService] = useState("");
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("09190358813");
+  const [customerInstagram, setCustomerInstagram] = useState("");
+  const [customerBale, setCustomerBale] = useState("");
   const [depositPaid, setDepositPaid] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(null);
 
   const services = [
-    { id: 1, name: "شنیون تخصصی و میکرو آرایش مو (نرخ کرج)", price: 1800000 },
-    { id: 2, name: "اصلاح صورت، ابرو و وکس تخصصی", price: 350000 },
-    { id: 3, name: "رنگ، لایت و آمبره مو (تعرفه کرج)", price: 2200000 },
-    { id: 4, name: "کاشت و ترمیم حرفه‌ای ناخن", price: 550000 }
+    { id: 1, name: "شنیون تخصصی عروس و آرایش مو - ۱,۸۰۰,۰۰۰ تومان", price: 1800000 },
+    { id: 2, name: "میکاپ تخصصی صورت - ۲,۵۰۰,۰۰۰ تومان", price: 2500000 },
+    { id: 3, name: "کاشت و ترمیم ناخن - ۶۵۰,۰۰۰ تومان", price: 650000 },
+    { id: 4, name: "کاشت و اکستنشن مژه - ۷۵۰,۰۰۰ تومان", price: 750000 }
   ];
-
-  const [crmCustomers, setCrmCustomers] = useState([
-    { id: 1, name: "سارا احمدی", phone: "09123456789", socialId: "@sara_ah", lastService: "شنیون تخصصی" }
-  ]);
 
   const handleBooking = (e) => {
     e.preventDefault();
-    if (!selectedService || !selectedDate || !selectedTime || !customerName || !customerPhone || !depositPaid) return;
-    
+    if (!selectedService || !customerName || !customerPhone || !depositPaid) return;
     const code = "RB-" + Math.floor(100000 + Math.random() * 900000);
-    setBookingSuccess({ code, service: selectedService.name, date: selectedDate, time: selectedTime });
-    
-    setCrmCustomers(prev => [
-      { id: Date.now(), name: customerName, phone: customerPhone, socialId: customerSocialId || "ثبت نشده", lastService: selectedService.name },
-      ...prev
-    ]);
+    setBookingSuccess(code);
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans pb-20 select-none">
-      <header className="bg-slate-900 border-b border-amber-500/20 sticky top-0 z-50 px-4 py-3 flex justify-between items-center">
-        <div>
-          <h1 className="text-sm font-bold text-amber-400">{salonName}</h1>
-          <p className="text-[10px] text-slate-400">مدیریت: {managerName}</p>
+    <div className="min-h-screen bg-[#0f0f0f] text-slate-100 font-sans p-4 flex justify-center pb-20" style={{ backgroundColor: '#0f0f0f', color: '#f1f5f9', minHeight: '100vh', padding: '16px', direction: 'rtl', display: 'flex', justifyContent: 'center' }}>
+      <div className="w-full max-w-md bg-[#161616] border border-amber-500/40 rounded-3xl p-5 shadow-2xl space-y-5" style={{ width: '100%', maxWidth: '400px', backgroundColor: '#161616', border: '1px solid rgba(245, 158, 11, 0.4)', borderRadius: '24px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        
+        {/* هدر بالایی */}
+        <div className="text-center space-y-1 bg-[#1c1a16] border border-amber-500/30 rounded-2xl p-3" style={{ textAlign: 'center', backgroundColor: '#1c1a16', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '16px', padding: '12px' }}>
+          <p className="text-[10px] tracking-widest text-amber-400 font-mono" style={{ fontSize: '10px', color: '#fbbf24', margin: '0 0 4px 0' }}>ROYALBOOK | پلتفرم هوشمند هلدینگ رویال‌فام</p>
+          <p className="text-xs font-bold text-amber-300" style={{ fontSize: '12px', fontWeight: 'bold', color: '#fde047', margin: '0 0 2px 0' }}>سیستم رزواسیون و عدم کنسلی سالن‌های زیبایی</p>
+          <p className="text-[10px] text-slate-400" style={{ fontSize: '10px', color: '#94a3b8', margin: 0 }}>تحت مالکیت استارتاپ رویال‌فام</p>
         </div>
-        <div className="flex gap-2">
-          <button onClick={() => setActiveTab('home')} className={`px-3 py-1.5 rounded-lg text-xs font-medium ${activeTab === 'home' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300'}`}>رزرو آنلاین</button>
-          <button onClick={() => setActiveTab('crm')} className={`px-3 py-1.5 rounded-lg text-xs font-medium ${activeTab === 'crm' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300'}`}>سی‌آرام</button>
+
+        {/* اطلاعات سالن */}
+        <div className="text-center space-y-1" style={{ textAlign: 'center' }}>
+          <h1 className="text-2xl font-black text-white" style={{ fontSize: '22px', fontWeight: '900', color: '#ffffff', margin: '0 0 4px 0' }}>{salonName}</h1>
+          <p className="text-xs text-slate-400" style={{ fontSize: '12px', color: '#94a3b8', margin: '0 0 2px 0' }}>مدیریت: سرکار {managerName}</p>
+          <p className="text-[11px] text-amber-300 font-mono" style={{ fontSize: '11px', color: '#fde047', margin: 0 }}>تلفن مدیریت: {managerPhone}</p>
         </div>
-      </header>
 
-      <main className="max-w-md mx-auto p-4 space-y-4">
-        {activeTab === 'home' ? (
-          <>
-            <div className="bg-slate-900 border border-amber-500/30 rounded-2xl p-4 text-center">
-              <h2 className="text-lg font-bold text-white mb-1">{salonName}</h2>
-              <p className="text-xs text-amber-300">مدیریت: {managerName}</p>
-            </div>
+        {/* قوانین عدم کنسلی */}
+        <div className="bg-red-950/30 border border-red-500/30 rounded-2xl p-3 text-center space-y-1 text-xs text-red-300" style={{ backgroundColor: 'rgba(127, 29, 29, 0.3)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '16px', padding: '12px', textAlign: 'center', color: '#fca5a5', fontSize: '11px' }}>
+          <p className="font-bold" style={{ fontWeight: 'bold', margin: '0 0 4px 0' }}>⚠️ قوانین مهم رزرو (عدم کنسلی):</p>
+          <p className="text-[11px] text-slate-300" style={{ margin: 0, color: '#cbd5e1' }}>وجه واریزی به‌عنوان بیعانه قطعی‌سازی نوبت بوده و به هیچ وجه قابل استرداد یا کنسلی نمی‌باشد.</p>
+        </div>
 
-            <form onSubmit={handleBooking} className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
-              <h3 className="text-xs font-bold text-amber-400">خدمات تخصصی سالن</h3>
-              <div className="space-y-2">
-                {services.map(s => (
-                  <div key={s.id} onClick={() => setSelectedService(s)} className={`p-2.5 rounded-xl border cursor-pointer flex justify-between items-center text-xs ${selectedService?.id === s.id ? 'border-amber-500 bg-amber-500/10 text-amber-300' : 'border-slate-800 bg-slate-800/40 text-slate-300'}`}>
-                    <span>{s.name}</span>
-                    <span className="font-bold text-amber-400">{s.price.toLocaleString()} تومان</span>
-                  </div>
-                ))}
+        {/* پلن پایه */}
+        <div className="bg-[#1f1d18] border border-amber-500/30 rounded-2xl p-4 text-center space-y-2" style={{ backgroundColor: '#1f1d18', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '16px', padding: '14px', textAlign: 'center' }}>
+          <p className="text-xs font-bold text-amber-400" style={{ fontSize: '12px', fontWeight: 'bold', color: '#fbbf24', margin: '0 0 4px 0' }}>✨ پلن پایه حرفه‌ای (۲.۵ میلیون تومان)</p>
+          <p className="text-[11px] text-slate-300" style={{ fontSize: '11px', color: '#cbd5e1', margin: '0 0 6px 0' }}>📊 سی‌آرام هوشمند (ظرفیت ۱۰۰ مشتری) + پنل پیامک</p>
+          <div className="text-[10px] text-slate-400 pt-1 border-t border-amber-500/10" style={{ fontSize: '10px', color: '#94a3b8', paddingTop: '6px' }}>مشتریان ثبت‌شده: ۱ از ۱۰۰</div>
+        </div>
+
+        {/* دو پلن دیگر */}
+        <div className="grid grid-cols-2 gap-2 text-center" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', textAlign: 'center' }}>
+          <div className="bg-[#1c1a16] border border-amber-500/20 rounded-xl p-2.5 space-y-1" style={{ backgroundColor: '#1c1a16', border: '1px solid rgba(245, 158, 11, 0.2)', borderRadius: '12px', padding: '10px' }}>
+            <p className="text-[11px] font-bold text-amber-400" style={{ fontSize: '11px', fontWeight: 'bold', color: '#fbbf24', margin: '0 0 2px 0' }}>پلن پیشرفته (۶ میلیون)</p>
+            <p className="text-[9px] text-slate-400" style={{ fontSize: '9px', color: '#94a3b8', margin: 0 }}>سالن‌های حرفه‌ای</p>
+          </div>
+          <div className="bg-[#1c1a16] border border-amber-500/40 rounded-xl p-2.5 space-y-1" style={{ backgroundColor: '#1c1a16', border: '1px solid rgba(245, 158, 11, 0.4)', borderRadius: '12px', padding: '10px' }}>
+            <p className="text-[11px] font-bold text-amber-300" style={{ fontSize: '11px', fontWeight: 'bold', color: '#fde047', margin: '0 0 2px 0' }}>پلن VIP (۱۲ میلیون)</p>
+            <p className="text-[9px] text-slate-400" style={{ fontSize: '9px', color: '#94a3b8', margin: 0 }}>امکانات کامل</p>
+          </div>
+        </div>
+
+        {/* شماره کارت پویا */}
+        <div className="bg-[#1c1a16] border border-dashed border-amber-500/50 rounded-2xl p-4 text-center space-y-2" style={{ backgroundColor: '#1c1a16', border: '1px dashed rgba(245, 158, 11, 0.5)', borderRadius: '16px', padding: '14px', textAlign: 'center' }}>
+          <p className="text-xs font-bold text-amber-400" style={{ fontSize: '12px', fontWeight: 'bold', color: '#fbbf24', margin: '0 0 8px 0' }}>💳 شماره کارت جهت واریز بیعانه:</p>
+          <input 
+            type="text" 
+            value={cardNumber} 
+            onChange={(e) => setCardNumber(e.target.value)} 
+            placeholder="شماره کارت را وارد کنید..." 
+            style={{ width: '100%', backgroundColor: '#111', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '10px', padding: '8px', textAlign: 'center', color: '#fff', fontSize: '14px', boxSizing: 'border-box' }}
+          />
+          <p className="text-[11px] text-slate-400" style={{ fontSize: '11px', color: '#94a3b8', margin: '6px 0 0 0' }}>به نام: {managerName}</p>
+        </div>
+
+        {/* فرم رزرو */}
+        <form onSubmit={handleBooking} className="bg-[#1a1a1a] border border-slate-800 rounded-2xl p-4 space-y-4" style={{ backgroundColor: '#1a1a1a', border: '1px solid #27272a', borderRadius: '16px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <h2 className="text-xs font-bold text-amber-400 text-center" style={{ fontSize: '12px', fontWeight: 'bold', color: '#fbbf24', textAlign: 'center', margin: 0 }}>رزرو آنلاین خدمات و پرداخت بیعانه</h2>
+          
+          <div className="space-y-1 text-xs" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <label className="text-slate-400 text-[11px]" style={{ fontSize: '11px', color: '#94a3b8' }}>انتخاب خدمت تخصصی (نرخ کرج):</label>
+            <select 
+              value={selectedService} 
+              onChange={(e) => setSelectedService(e.target.value)} 
+              style={{ width: '100%', backgroundColor: '#111', border: '1px solid #3f3f46', borderRadius: '10px', padding: '10px', color: '#e2e8f0', fontSize: '12px', boxSizing: 'border-box' }}
+            >
+              <option value="">انتخاب کنید...</option>
+              {services.map(s => <option key={s.id} value={s.name}>{s.name}</option>)}
+            </select>
+          </div>
+
+          <div className="space-y-1 text-xs" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <label className="text-slate-400 text-[11px]" style={{ fontSize: '11px', color: '#94a3b8' }}>نام و نام خانوادگی مشتری:</label>
+            <input 
+              type="text" 
+              placeholder="مثال: سارا رضایی" 
+              value={customerName} 
+              onChange={(e) => setCustomerName(e.target.value)} 
+              style={{ width: '100%', backgroundColor: '#111', border: '1px solid #3f3f46', borderRadius: '10px', padding: '10px', color: '#e2e8f0', fontSize: '12px', boxSizing: 'border-box' }}
+            />
+          </div>
+
+          <div className="space-y-1 text-xs" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <label className="text-slate-400 text-[11px]" style={{ fontSize: '11px', color: '#94a3b8' }}>شماره تماس مشتری:</label>
+            <input 
+              type="tel" 
+              value={customerPhone} 
+              onChange={(e) => setCustomerPhone(e.target.value)} 
+              style={{ width: '100%', backgroundColor: '#111', border: '1px solid #3f3f46', borderRadius: '10px', padding: '10px', color: '#e2e8f0', fontSize: '12px', boxSizing: 'border-box' }}
+            />
+          </div>
+
+          {/* شبکه‌های اجتماعی مشتری */}
+          <div className="bg-[#121212] border border-slate-800 rounded-xl p-3 space-y-2" style={{ backgroundColor: '#121212', border: '1px solid #27272a', borderRadius: '12px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <p className="text-[11px] font-bold text-amber-400" style={{ fontSize: '11px', fontWeight: 'bold', color: '#fbbf24', margin: 0 }}>شبکه‌های اجتماعی مشتری:</p>
+            <div className="space-y-2 text-xs">
+              <div>
+                <label className="text-slate-400 text-[10px]" style={{ fontSize: '10px', color: '#94a3b8' }}>آیدی اینستاگرام:</label>
+                <input 
+                  type="text" 
+                  placeholder="@username" 
+                  value={customerInstagram} 
+                  onChange={(e) => setCustomerInstagram(e.target.value)} 
+                  style={{ width: '100%', backgroundColor: '#111', border: '1px solid #3f3f46', borderRadius: '8px', padding: '8px', color: '#e2e8f0', fontSize: '11px', boxSizing: 'border-box', marginTop: '2px' }}
+                />
               </div>
-
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="bg-slate-800 border border-slate-700 rounded-xl px-2 py-2 text-white" />
-                <select value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)} className="bg-slate-800 border border-slate-700 rounded-xl px-2 py-2 text-white">
-                  <option value="">ساعت نوبت</option>
-                  <option value="10:00">۱۰:۰۰ صبح</option>
-                  <option value="14:00">۱۴:۰۰ عصر</option>
-                </select>
+              <div>
+                <label className="text-slate-400 text-[10px]" style={{ fontSize: '10px', color: '#94a3b8' }}>آیدی پیام‌رسان بله:</label>
+                <input 
+                  type="text" 
+                  placeholder="@bale_id" 
+                  value={customerBale} 
+                  onChange={(e) => setCustomerBale(e.target.value)} 
+                  style={{ width: '100%', backgroundColor: '#111', border: '1px solid #3f3f46', borderRadius: '8px', padding: '8px', color: '#e2e8f0', fontSize: '11px', boxSizing: 'border-box', marginTop: '2px' }}
+                />
               </div>
-
-              <div className="space-y-2 text-xs">
-                <input type="text" placeholder="نام مشتری" value={customerName} onChange={(e) => setCustomerName(e.target.value)} className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white" />
-                <input type="tel" placeholder="شماره موبایل" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white" />
-                <input type="text" placeholder="آیدی اینستاگرام یا بله" value={customerSocialId} onChange={(e) => setCustomerSocialId(e.target.value)} className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white" />
-              </div>
-
-              <div className="bg-slate-950 p-3 rounded-xl border border-amber-500/30 text-center space-y-1 text-xs">
-                <p className="text-amber-300">شماره کارت واریز بیعانه: <span className="font-mono font-bold">{cardNumber}</span></p>
-                <label className="flex items-center justify-center gap-2 pt-1 cursor-pointer">
-                  <input type="checkbox" checked={depositPaid} onChange={(e) => setDepositPaid(e.target.checked)} className="accent-amber-500 w-4 h-4 rounded" />
-                  <span>بیعانه را پرداخت کردم</span>
-                </label>
-              </div>
-
-              <button type="submit" className="w-full py-2.5 bg-amber-500 text-slate-950 font-bold rounded-xl text-xs">ثبت نهایی نوبت</button>
-            </form>
-
-            {bookingSuccess && (
-              <div className="bg-emerald-950/40 border border-emerald-500/40 rounded-xl p-3 text-center text-xs">
-                <p className="text-emerald-400 font-bold">🎉 نوبت ثبت شد! کد پیگیری: {bookingSuccess.code}</p>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="space-y-4 text-xs">
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
-              <h3 className="font-bold text-amber-400">سی‌آرام هوشمند</h3>
-              <p className="text-slate-400">تعداد ثبت‌شدگان: {crmCustomers.length}</p>
-            </div>
-            <div className="space-y-2">
-              {crmCustomers.map(c => (
-                <div key={c.id} className="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-1">
-                  <div className="flex justify-between font-bold text-white">
-                    <span>{c.name}</span>
-                    <span className="text-amber-400">{c.phone}</span>
-                  </div>
-                  <div className="flex justify-between text-slate-400 text-[10px]">
-                    <span>آیدی: <strong className="text-amber-300">{c.socialId}</strong></span>
-                    <span>خدمت: {c.lastService}</span>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
+
+          <div className="flex items-center justify-center gap-2 pt-2" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', paddingTop: '4px' }}>
+            <input 
+              type="checkbox" 
+              checked={depositPaid} 
+              onChange={(e) => setDepositPaid(e.target.checked)} 
+              style={{ width: '16px', height: '16px', accentColor: '#f59e0b' }} 
+            />
+            <span className="text-xs text-slate-300" style={{ fontSize: '11px', color: '#cbd5e1' }}>بیعانه را پرداخت کردم (پذیرش قوانین عدم کنسلی)</span>
+          </div>
+
+          <button type="submit" className="w-full py-3 bg-amber-500 text-slate-950 font-bold rounded-xl text-xs hover:bg-amber-400 transition" style={{ width: '100%', padding: '12px', backgroundColor: '#f59e0b', color: '#09090b', fontWeight: 'bold', borderRadius: '10px', border: 'none', fontSize: '12px', cursor: 'pointer' }}>
+            ثبت نهایی و دریافت کد پیگیری
+          </button>
+        </form>
+
+        {bookingSuccess && (
+          <div className="bg-emerald-950/60 border border-emerald-500 rounded-xl p-3 text-center text-xs text-emerald-400 font-bold" style={{ backgroundColor: 'rgba(6, 78, 59, 0.6)', border: '1px solid #059669', borderRadius: '12px', padding: '12px', textAlign: 'center', color: '#34d399', fontSize: '11px', fontWeight: 'bold' }}>
+            🎉 نوبت شما ثبت شد! کد پیگیری: {bookingSuccess}
+          </div>
         )}
-      </main>
+
+        {/* فوتر مالکیت استارتاپ رویال‌فام */}
+        <div className="bg-[#121212] border border-slate-800 rounded-2xl p-3 text-center text-[11px] text-slate-400 space-y-1" style={{ backgroundColor: '#121212', border: '1px solid #27272a', borderRadius: '16px', padding: '12px', textAlign: 'center', fontSize: '11px', color: '#94a3b8', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+          <p className="font-bold text-amber-400" style={{ fontWeight: 'bold', color: '#fbbf24', margin: 0 }}>مالکیت: استارتاپ رویال‌فام</p>
+          <p className="text-slate-300" style={{ margin: 0, color: '#cbd5e1' }}>پشتیبانی و توسعه: امیرسام یعقوبی</p>
+          <p className="font-mono text-slate-300" style={{ margin: 0, color: '#cbd5e1' }}>تماس: 09366681963</p>
+        </div>
+
+      </div>
     </div>
   );
 }
