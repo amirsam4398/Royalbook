@@ -1,155 +1,153 @@
 import React, { useState } from 'react';
 
 export default function App() {
-  const [salonName] = useState("زیباسرای طوبا");
+  const [salonName] = useState("زیباسرای طوبی");
   const [managerName] = useState("خانم رشیدی");
   const [managerPhone] = useState("09190358813");
   const [managerInstagram] = useState("Tobabeauty89");
   const [cardNumber, setCardNumber] = useState("");
 
-  // پلن‌های هوشمند سالن با محدودیت‌ها و قیمت‌ها
-  const plans = [
-    { id: 1, name: "پلن پایه - ۲,۵۰۰,۰۰۰ تومان (ظرفیت ۶ کاربر / CRM تا ۳۰۰ نفر)" },
-    { id: 2, name: "پلن پیشرفته - ۶,۰۰۰,۰۰۰ تومان (ظرفیت ۱۲ کاربر + تحلیل هوشمند)" },
-    { id: 3, name: "پلن جامع سازمانی - ۱۲,۰۰۰,۰۰۰ تومان (ظرفیت ۱۰۰۰ کاربر + CRM کامل)" }
-  ];
-
-  const [selectedPlan, setSelectedPlan] = useState(plans[0].name);
   const [selectedService, setSelectedService] = useState("");
   const [customerName, setCustomerName] = useState("");
-  const [customerPhone, setCustomerPhone] = useState("09190358813");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [bookingDate, setBookingDate] = useState("");
+  const [visitDate, setVisitDate] = useState("");
   const [depositPaid, setDepositPaid] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(null);
 
-  // خدمات تخصصی سالن‌های زیبایی (کراتین، احیا، رنگ و...)
   const services = [
-    { id: 1, name: "کراتین و احیای تخصصی مو - ۳,۵۰۰,۰۰۰ تومان" },
-    { id: 2, name: "رنگ، لایت و آمبره مو - ۲,۸۰۰,۰۰۰ تومان" },
-    { id: 3, name: "شنیون تخصصی عروس و آرایش مو - ۱,۸۰۰,۰۰۰ تومان" },
-    { id: 4, name: "میکاپ تخصصی صورت - ۲,۵۰۰,۰۰۰ تومان" },
-    { id: 5, name: "کاشت و ترمیم ناخن - ۶۵۰,۰۰۰ تومان" },
-    { id: 6, name: "کاشت و اکستنشن مژه - ۷۵۰,۰۰۰ تومان" },
-    { id: 7, name: "پاکسازی و فیشیال تخصصی پوست - ۱,۲۰۰,۰۰۰ تومان" }
+    { id: 1, name: "خدمات تخصصی آرایش عروس - ۵,۵۰۰,۰۰۰ تومان" },
+    { id: 2, name: "میکاپ - ۹۰۰,۰۰۰ تومان" },
+    { id: 3, name: "شنیون - ۸۰۰,۰۰۰ تومان" },
+    { id: 4, name: "کوتاهی ژورنالی - ۶۰۰,۰۰۰ تومان" },
+    { id: 5, name: "کاشت ناخن - ۵۰۰,۰۰۰ تومان" },
+    { id: 6, name: "رنگ و لایت - ۵,۰۰۰,۰۰۰ تومان" },
+    { id: 7, name: "احیاوپروتئین - ۳,۰۰۰,۰۰۰ تومان" },
+    { id: 8, name: "فشیال - ۵۰۰,۰۰۰ تومان" },
+    { id: 9, name: "فردايم - ۲,۵۰۰,۰۰۰ تومان" }
   ];
 
   const handleBooking = (e) => {
     e.preventDefault();
-    if (!selectedService || !customerName || !customerPhone || !depositPaid) return;
-    const code = "RB-" + Math.floor(100000 + Math.random() * 900000);
+    if (!selectedService || !customerName || !customerPhone || !bookingDate || !visitDate || !depositPaid) {
+      alert("لطفاً تمام فیلدها از جمله تاریخ ثبت رزرو و تاریخ مراجعه را تکمیل کرده و پرداخت بیعانه را تأیید کنید.");
+      return;
+    }
+    const code = "TOBA-" + Math.floor(1000 + Math.random() * 9000);
     setBookingSuccess(code);
   };
 
-  // ارسال مستقیم جزئیات به بله مدیر (جایگزین پنل پیامکی)
   const sendToBaleManager = () => {
-    const text = encodeURIComponent(`سلام خانم رشیدی، رزرو جدید در پلتفرم ثبت شد:\n\n👤 مشتری: ${customerName}\n📱 تلفن: ${customerPhone}\n💄 خدمت: ${selectedService}\n💎 پلن انتخابی: ${selectedPlan}\n🔑 کد پیگیری: ${bookingSuccess}`);
+    const text = encodeURIComponent(`🤖 [زیباسرای طوبی - پیام‌رسان بله]:\nرزرو جدید ثبت شد!\n\n👤 مشتری: ${customerName}\n📱 تلفن: ${customerPhone}\n💼 خدمت: ${selectedService}\n📅 تاریخ ثبت: ${bookingDate}\n🗓️ تاریخ مراجعه: ${visitDate}\n🔑 کد پیگیری: ${bookingSuccess}`);
     window.open(`https://ble.ir/${managerPhone}?text=${text}`, '_blank');
   };
 
-  // افزودن خودکار نوبت به تقویم گوگل (Google Calendar)
-  const addToCalendar = () => {
-    const title = encodeURIComponent(`نوبت زیبایی در ${salonName}: ${selectedService}`);
-    const details = encodeURIComponent(`مشتری عزیز ${customerName}، نوبت شما در ${salonName} ثبت شد. کد پیگیری: ${bookingSuccess}. مدیریت: ${managerPhone}`);
-    const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}`;
-    window.open(calendarUrl, '_blank');
+  const sendWhatsAppNotice = () => {
+    const text = encodeURIComponent(`سلام ${customerName} عزیز، نوبت شما در زیباسرای طوبی برای تاریخ مراجعه ${visitDate} ثبت شد. کد پیگیری: ${bookingSuccess}. مدیریت: ${managerName}`);
+    window.open(`https://wa.me/98${customerPhone.slice(-10)}?text=${text}`, '_blank');
+  };
+
+  const sendTelegramNotice = () => {
+    const text = encodeURIComponent(`سلام ${customerName} عزیز، نوبت شما در زیباسرای طوبی برای تاریخ مراجعه ${visitDate} تایید شد. کد پیگیری: ${bookingSuccess}.`);
+    window.open(`https://t.me/share/url?url=https://royalbook-ten.vercel.app&text=${text}`, '_blank');
   };
 
   return (
-    <div style={{ backgroundColor: '#0f0f0f', color: '#f1f5f9', minHeight: '100vh', padding: '16px', fontFamily: 'sans-serif', direction: 'rtl', display: 'flex', justifyContent: 'center', paddingBottom: '80px' }}>
-      <div style={{ width: '100%', maxWidth: '400px', backgroundColor: '#161616', border: '1px solid rgba(245, 158, 11, 0.4)', borderRadius: '24px', padding: '20px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+    <div style={{ backgroundColor: '#1a0f1a', color: '#fbcfe8', minHeight: '100vh', padding: '16px', fontFamily: 'sans-serif', direction: 'rtl', display: 'flex', justifyContent: 'center', paddingBottom: '80px' }}>
+      <div style={{ width: '100%', maxWidth: '400px', backgroundColor: '#2d1529', border: '1px solid rgba(244, 114, 182, 0.4)', borderRadius: '24px', padding: '20px', boxShadow: '0 25px 50px -12px rgba(236, 72, 153, 0.25)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
         
-        {/* هدر بالایی */}
-        <div style={{ textAlign: 'center', backgroundColor: '#1c1a16', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '16px', padding: '12px' }}>
-          <p style={{ fontSize: '10px', letterSpacing: '2px', color: '#fbbf24', margin: '0 0 4px 0', fontFamily: 'monospace' }}>ROYALBOOK | پلتفرم هوشمند سالن‌های زیبایی</p>
-          <p style={{ fontSize: '12px', fontWeight: 'bold', color: '#fde047', margin: '0 0 2px 0' }}>سیستم جامع رزواسیون کراتین، احیا و مدیریت سالن</p>
-          <p style={{ fontSize: '10px', color: '#94a3b8', margin: 0 }}>هلدینگ رویال‌فام</p>
+        <div style={{ textAlign: 'center', backgroundColor: '#3b1c35', border: '1px solid rgba(244, 114, 182, 0.3)', borderRadius: '16px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          <p style={{ fontSize: '9px', letterSpacing: '1px', color: '#f472b6', margin: 0, fontFamily: 'monospace' }}>ROYALBOOK | پلتفرم هوشمند سالن‌های زیبایی</p>
+          <p style={{ fontSize: '11px', fontWeight: 'bold', color: '#fbcfe8', margin: 0, lineHeight: '1.4' }}>سیستم جامع رزروآسیون، احیا و مدیریت سالن</p>
         </div>
 
-        {/* اطلاعات مدیریت و ارتباطات */}
-        <div style={{ textAlign: 'center', backgroundColor: '#1c1a16', border: '1px solid rgba(245, 158, 11, 0.2)', borderRadius: '16px', padding: '12px' }}>
-          <h1 style={{ fontSize: '22px', fontWeight: '900', color: '#ffffff', margin: '0 0 4px 0' }}>{salonName}</h1>
-          <p style={{ fontSize: '12px', color: '#94a3b8', margin: '0 0 2px 0' }}>مدیریت: سرکار {managerName}</p>
-          <p style={{ fontSize: '11px', color: '#fde047', margin: '0 0 6px 0', fontFamily: 'monospace' }}>تلفن مدیریت: {managerPhone}</p>
+        <div style={{ textAlign: 'center', backgroundColor: '#3b1c35', border: '1px solid rgba(244, 114, 182, 0.3)', borderRadius: '16px', padding: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <h1 style={{ fontSize: '22px', fontWeight: '900', color: '#ffffff', margin: 0 }}>{salonName}</h1>
+          <p style={{ fontSize: '11px', color: '#f472b6', margin: 0 }}>مدیریت: {managerName}</p>
+          <p style={{ fontSize: '11px', color: '#cbd5e1', margin: 0, fontFamily: 'monospace' }}>تلفن مدیریت: {managerPhone}</p>
           
-          <div style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px dashed rgba(245, 158, 11, 0.3)', display: 'flex', justifyContent: 'center', gap: '12px', fontSize: '11px' }}>
-            <a href={`https://instagram.com/${managerInstagram}`} target="_blank" rel="noopener noreferrer" style={{ color: '#38bdf8', textDecoration: 'none', backgroundColor: 'rgba(56, 189, 248, 0.1)', padding: '4px 8px', borderRadius: '8px', border: '1px solid rgba(56, 189, 248, 0.2)' }}>
-              اینستاگرام (@{managerInstagram}) ↗
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', paddingTop: '4px' }}>
+            <a href={`https://instagram.com/${managerInstagram}`} target="_blank" rel="noopener noreferrer" style={{ color: '#ffffff', textDecoration: 'none', backgroundColor: 'rgba(236, 72, 153, 0.2)', padding: '8px', borderRadius: '8px', border: '1px solid rgba(244, 114, 182, 0.4)', fontSize: '11px', fontWeight: 'bold', display: 'block', textAlign: 'center' }}>
+              📸 اینستاگرام
             </a>
-            <a href={`tel:${managerPhone}`} style={{ color: '#4ade80', textDecoration: 'none', backgroundColor: 'rgba(74, 222, 128, 0.1)', padding: '4px 8px', borderRadius: '8px', border: '1px solid rgba(74, 222, 128, 0.2)' }}>
-              تماس مستقیم ↗
+            <a href={`tel:${managerPhone}`} style={{ color: '#ffffff', textDecoration: 'none', backgroundColor: 'rgba(236, 72, 153, 0.2)', padding: '8px', borderRadius: '8px', border: '1px solid rgba(244, 114, 182, 0.4)', fontSize: '11px', fontWeight: 'bold', display: 'block', textAlign: 'center' }}>
+              📞 تماس مستقیم
             </a>
           </div>
         </div>
 
-        {/* انتخاب پلن‌های هوشمند */}
-        <div style={{ backgroundColor: '#1c1a16', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '16px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <p style={{ fontSize: '12px', fontWeight: 'bold', color: '#fbbf24', textAlign: 'center', margin: 0 }}>💎 انتخاب پلن هوشمند و محدودیت سیستم:</p>
-          <select value={selectedPlan} onChange={(e) => setSelectedPlan(e.target.value)} style={{ width: '100%', backgroundColor: '#111', border: '1px solid rgba(245, 158, 11, 0.4)', borderRadius: '10px', padding: '10px', color: '#fde047', fontSize: '11px', boxSizing: 'border-box' }}>
-            {plans.map(p => <option key={p.id} value={p.name}>{p.name}</option>)}
-          </select>
+        <div style={{ backgroundColor: 'rgba(159, 18, 57, 0.3)', border: '1px solid rgba(244, 114, 182, 0.3)', borderRadius: '16px', padding: '12px', textAlign: 'center', color: '#fbcfe8', fontSize: '11px' }}>
+          <p style={{ fontWeight: 'bold', margin: '0 0 4px 0', color: '#f472b6' }}>⚠️ قوانین مهم رزرو (عدم کنسلی):</p>
+          <p style={{ margin: 0, color: '#e2e8f0' }}>وجه واریزی به‌عنوان بیعانه قطعی‌سازی نوبت بوده و به هیچ وجه قابل استرداد نمی‌باشد.</p>
         </div>
 
-        {/* قوانین عدم کنسلی */}
-        <div style={{ backgroundColor: 'rgba(127, 29, 29, 0.3)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '16px', padding: '12px', textAlign: 'center', color: '#fca5a5', fontSize: '11px' }}>
-          <p style={{ fontWeight: 'bold', margin: '0 0 4px 0' }}>⚠️ قوانین مهم رزرو (عدم کنسلی):</p>
-          <p style={{ margin: 0, color: '#cbd5e1' }}>وجه واریزی به‌عنوان بیعانه قطعی‌سازی نوبت بوده و به هیچ وجه قابل استرداد نمی‌باشد.</p>
+        <div style={{ backgroundColor: '#3b1c35', border: '1px dashed rgba(244, 114, 182, 0.5)', borderRadius: '16px', padding: '14px', textAlign: 'center' }}>
+          <p style={{ fontSize: '12px', fontWeight: 'bold', color: '#f472b6', margin: '0 0 8px 0' }}>💳 شماره کارت جهت واریز بیعانه (پویا):</p>
+          <input type="text" placeholder="شماره کارت را وارد کنید..." value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} style={{ width: '100%', backgroundColor: '#1a0f1a', border: '1px solid rgba(244, 114, 182, 0.4)', borderRadius: '10px', padding: '8px', textAlign: 'center', color: '#fff', fontFamily: 'monospace', fontSize: '13px', boxSizing: 'border-box' }} />
+          <p style={{ fontSize: '10px', color: '#f472b6', margin: '6px 0 0 0' }}>به نام: خانم رشیدی</p>
         </div>
 
-        {/* شماره کارت پویا */}
-        <div style={{ backgroundColor: '#1c1a16', border: '1px dashed rgba(245, 158, 11, 0.5)', borderRadius: '16px', padding: '14px', textAlign: 'center' }}>
-          <p style={{ fontSize: '12px', fontWeight: 'bold', color: '#fbbf24', margin: '0 0 8px 0' }}>💳 شماره کارت جهت واریز بیعانه (پویا):</p>
-          <input type="text" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} placeholder="شماره کارت را وارد کنید..." style={{ width: '100%', backgroundColor: '#111', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '10px', padding: '8px', textAlign: 'center', color: '#fff', fontFamily: 'monospace', fontSize: '14px', boxSizing: 'border-box' }} />
-          <p style={{ fontSize: '11px', color: '#94a3b8', margin: '6px 0 0 0' }}>به نام: {managerName}</p>
-        </div>
-
-        {/* فرم رزرو خدمات تخصصی سالن */}
-        <form onSubmit={handleBooking} style={{ backgroundColor: '#1a1a1a', border: '1px solid #27272a', borderRadius: '16px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <h2 style={{ fontSize: '12px', fontWeight: 'bold', color: '#fbbf24', textAlign: 'center', margin: 0 }}>رزرو آنلاین خدمات (کراتین، احیا، رنگ، ناخن و...)</h2>
+        <form onSubmit={handleBooking} style={{ backgroundColor: '#3b1c35', border: '1px solid rgba(244, 114, 182, 0.2)', borderRadius: '16px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <h2 style={{ fontSize: '12px', fontWeight: 'bold', color: '#f472b6', textAlign: 'center', margin: 0 }}>انجام کلیه خدمات زیبایی</h2>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <label style={{ fontSize: '11px', color: '#94a3b8' }}>انتخاب خدمت تخصصی سالن:</label>
-            <select value={selectedService} onChange={(e) => setSelectedService(e.target.value)} style={{ width: '100%', backgroundColor: '#111', border: '1px solid #3f3f46', borderRadius: '10px', padding: '10px', color: '#e2e8f0', fontSize: '12px', boxSizing: 'border-box' }}>
+            <label style={{ fontSize: '11px', color: '#fbcfe8' }}>انتخاب خدمت تخصصی سالن:</label>
+            <select value={selectedService} onChange={(e) => setSelectedService(e.target.value)} style={{ width: '100%', backgroundColor: '#1a0f1a', border: '1px solid rgba(244, 114, 182, 0.4)', borderRadius: '10px', padding: '10px', color: '#fbcfe8', fontSize: '12px', boxSizing: 'border-box' }}>
               <option value="">انتخاب کنید...</option>
               {services.map(s => <option key={s.id} value={s.name}>{s.name}</option>)}
             </select>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <label style={{ fontSize: '11px', color: '#94a3b8' }}>نام و نام خانوادگی مشتری:</label>
-            <input type="text" placeholder="مثال: سارا رضایی" value={customerName} onChange={(e) => setCustomerName(e.target.value)} style={{ width: '100%', backgroundColor: '#111', border: '1px solid #3f3f46', borderRadius: '10px', padding: '10px', color: '#e2e8f0', fontSize: '12px', boxSizing: 'border-box' }} />
+            <label style={{ fontSize: '11px', color: '#fbcfe8' }}>نام و نام خانوادگی مشتری:</label>
+            <input type="text" placeholder="مثال: سارا رضایی" value={customerName} onChange={(e) => setCustomerName(e.target.value)} style={{ width: '100%', backgroundColor: '#1a0f1a', border: '1px solid rgba(244, 114, 182, 0.4)', borderRadius: '10px', padding: '10px', color: '#fbcfe8', fontSize: '12px', boxSizing: 'border-box' }} />
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <label style={{ fontSize: '11px', color: '#94a3b8' }}>شماره تماس مشتری:</label>
-            <input type="tel" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} style={{ width: '100%', backgroundColor: '#111', border: '1px solid #3f3f46', borderRadius: '10px', padding: '10px', color: '#e2e8f0', fontSize: '12px', fontFamily: 'monospace', boxSizing: 'border-box' }} />
+            <label style={{ fontSize: '11px', color: '#fbcfe8' }}>شماره تماس مشتری:</label>
+            <input type="tel" placeholder="09123456789" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} style={{ width: '100%', backgroundColor: '#1a0f1a', border: '1px solid rgba(244, 114, 182, 0.4)', borderRadius: '10px', padding: '10px', color: '#fbcfe8', fontSize: '12px', fontFamily: 'monospace', boxSizing: 'border-box' }} />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <label style={{ fontSize: '11px', color: '#fbcfe8' }}>تاریخ ثبت رزرو (امروز):</label>
+            <input type="date" value={bookingDate} onChange={(e) => setBookingDate(e.target.value)} style={{ width: '100%', backgroundColor: '#1a0f1a', border: '1px solid rgba(244, 114, 182, 0.4)', borderRadius: '10px', padding: '10px', color: '#fbcfe8', fontSize: '12px', fontFamily: 'monospace', boxSizing: 'border-box' }} />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <label style={{ fontSize: '11px', color: '#fbcfe8' }}>تاریخ مراجعه به سالن (روز نوبت):</label>
+            <input type="date" value={visitDate} onChange={(e) => setVisitDate(e.target.value)} style={{ width: '100%', backgroundColor: '#1a0f1a', border: '1px solid rgba(244, 114, 182, 0.4)', borderRadius: '10px', padding: '10px', color: '#fbcfe8', fontSize: '12px', fontFamily: 'monospace', boxSizing: 'border-box' }} />
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', paddingTop: '4px', cursor: 'pointer' }}>
-            <input type="checkbox" checked={depositPaid} onChange={(e) => setDepositPaid(e.target.checked)} style={{ width: '16px', height: '16px', accentColor: '#f59e0b' }} />
-            <span style={{ fontSize: '11px', color: '#cbd5e1' }}>بیعانه را پرداخت کردم (پذیرش قوانین عدم کنسلی)</span>
+            <input type="checkbox" checked={depositPaid} onChange={(e) => setDepositPaid(e.target.checked)} style={{ width: '16px', height: '16px', accentColor: '#ec4899' }} />
+            <span style={{ fontSize: '11px', color: '#fbcfe8' }}>بیعانه را واریز کردم و قوانین را می‌پذیرم</span>
           </div>
 
-          <button type="submit" style={{ width: '100%', padding: '12px', backgroundColor: '#f59e0b', color: '#09090b', fontWeight: 'bold', borderRadius: '10px', border: 'none', fontSize: '12px', cursor: 'pointer' }}>
-            ثبت نهایی نوبت
+          <button type="submit" style={{ width: '100%', padding: '12px', backgroundColor: '#ec4899', color: '#ffffff', fontWeight: 'bold', borderRadius: '10px', border: 'none', fontSize: '12px', cursor: 'pointer' }}>
+            ثبت نهایی رزرو و دریافت کد پیگیری
           </button>
         </form>
 
         {bookingSuccess && (
-          <div style={{ backgroundColor: 'rgba(6, 78, 59, 0.6)', border: '1px solid #059669', borderRadius: '12px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px', textAlign: 'center', color: '#34d399', fontSize: '11px', fontWeight: 'bold' }}>
-            <div>🎉 نوبت با موفقیت ثبت شد! کد پیگیری: {bookingSuccess}</div>
+          <div style={{ backgroundColor: 'rgba(131, 24, 98, 0.6)', border: '1px solid #ec4899', borderRadius: '12px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px', textAlign: 'center', color: '#fbcfe8', fontSize: '11px', fontWeight: 'bold' }}>
+            <div>🎉 نوبت شما ثبت شد! کد پیگیری: {bookingSuccess}</div>
+            <div style={{ fontSize: '10px', color: '#f472b6' }}>تاریخ مراجعه: {visitDate}</div>
+            
             <button onClick={sendToBaleManager} style={{ padding: '8px', backgroundColor: '#38bdf8', color: '#09090b', border: 'none', borderRadius: '8px', fontSize: '11px', fontWeight: 'bold', cursor: 'pointer' }}>
-              📨 ارسال فوری اطلاعات نوبت به مدیر در بله
+              🤖 ارسال گزارش به مدیر در پیام‌رسان بله
             </button>
-            <button onClick={addToCalendar} style={{ padding: '8px', backgroundColor: '#fde047', color: '#09090b', border: 'none', borderRadius: '8px', fontSize: '11px', fontWeight: 'bold', cursor: 'pointer' }}>
-              📅 افزودن خودکار یادآوری نوبت به تقویم گوشی
+            <button onClick={sendWhatsAppNotice} style={{ padding: '8px', backgroundColor: '#4ade80', color: '#09090b', border: 'none', borderRadius: '8px', fontSize: '11px', fontWeight: 'bold', cursor: 'pointer' }}>
+              💬 ارسال تاییدیه به مشتری در واتساپ
+            </button>
+            <button onClick={sendTelegramNotice} style={{ padding: '8px', backgroundColor: '#60a5fa', color: '#09090b', border: 'none', borderRadius: '8px', fontSize: '11px', fontWeight: 'bold', cursor: 'pointer' }}>
+              ✈️ اشتراک‌گذاری در تلگرام
             </button>
           </div>
         )}
 
-        {/* فوتر با مشخصات توسعه‌دهنده */}
-        <div style={{ backgroundColor: '#121212', border: '1px solid #27272a', borderRadius: '16px', padding: '12px', textAlign: 'center', fontSize: '11px', color: '#94a3b8', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-          <p style={{ fontWeight: 'bold', color: '#fbbf24', margin: 0 }}>مالکیت: استارتاپ رویال‌فام</p>
-          <p style={{ margin: 0, color: '#cbd5e1' }}>توسعه و پشتیبانی: امیرسام یعقوبی</p>
-          <p style={{ margin: 0, fontFamily: 'monospace', color: '#cbd5e1' }}>تماس: 09366681963</p>
+        <div style={{ backgroundColor: '#1a0f1a', border: '1px solid rgba(244, 114, 182, 0.2)', borderRadius: '16px', padding: '12px', textAlign: 'center', fontSize: '11px', color: '#f472b6', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+          <p style={{ fontWeight: 'bold', color: '#fbcfe8', margin: 0 }}>توسعه‌دهنده و مدیرعامل: امیرسام یعقوبی</p>
+          <p style={{ margin: 0, color: '#f472b6' }}>استارتاپ فناورانه هوش مصنوعی رویال‌فام</p>
         </div>
 
       </div>
